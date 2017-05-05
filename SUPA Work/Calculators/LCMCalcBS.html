@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LCM Calculator BootStrap</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <script  src="https://code.jquery.com/jquery-2.2.4.min.js" ></script>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script>
+            //Main Function - Runs After canCalc function
+            function calculate(){
+                //Number of boxes
+                var val = parseInt($('#numOfNums').val());
+                //Value of inputs
+                var num1 = parseInt($('#num1').val());
+                var num2 = parseInt($('#num2').val());
+                var num3 = parseInt($('#num3').val());
+                //Variables for loop
+                var isLow = false;
+                var i = 0;
+                while(isLow == false ){
+                    i++;
+                    //If input 3 has no value 
+                    if(isNaN(num3) == true){
+                        if( i % num1 == 0 && i % num2 == 0 ){
+                            isLow = true;
+                            $('#answer').html('<p>The least common multiple of ' + num1 + ' and ' + num2 + ' is: ' + i);
+                        }
+                        //If input 2 has no value
+                    }else if(isNaN(num2) == true){
+                        if( i % num1 == 0 && i % num3 == 0 ){
+                            isLow = true;
+                            $('#answer').html('<p>The least common multiple of ' + num1 + ' and ' + num3 + ' is: ' + i);
+                        }
+                        //If input 1 has no value
+                    }else if(isNaN(num1) == true){
+                        if( i % num2 == 0 && i % num3 == 0 ){
+                            isLow = true;
+                            $('#answer').html('<p>The least common multiple of ' + num2 + ' and ' + num3 + ' is: ' + i);
+                        }
+                        //If all inputs have value    
+                    }else{
+                        if( i % num1 == 0 && i % num2 == 0 && i % num3 == 0){
+                            isLow = true;
+                            $('#answer').html('<p>The least common multiple of ' + num1 + ', ' + num2 + ' and ' + num3 + ' is: ' + i);
+                        }
+                    }
+                }
+            }
+            //Runs when switch input is changed
+            function numBoxes(){
+                //Number of boxes
+                val = parseInt($('#numOfNums').val());
+                //Checks value and changes box accordingly 
+                switch(val){
+                    case 2:
+                        $('#num3').hide();
+                        break;
+                    case 3:
+                        $('#num3').show();
+                        break;
+                }
+            }
+            //Runs on change of value, Makes sure the value in the inputs is valid
+            function canCalc(){
+                //String values of inputs
+                var isNum1 = (($('#num1').val()) + '').length;
+                var isNum2 = (($('#num2').val()) + '').length;
+                var isNum3 = (($('#num3').val()) + '').length;
+                //Num value of inputs
+                var num1 = parseInt($('#num1').val());
+                var num2 = parseInt($('#num2').val());
+                var num3 = parseInt($('#num3').val());
+                //Checks if two inputs have no value
+                if( (isNum1 == 0 && isNum2 == 0) || (isNum1 == 0 && isNum3 == 0) || (isNum2 == 0 && isNum3 == 0) ) {
+                    $('#answer').empty();
+                    $('#answer').html('<h3>Waiting on one more number</h3>');
+                }else{
+                    //Checks if any value is 0
+                    if( num1 == 0 || num2 == 0 || num3 == 0){
+                        $('#answer').empty();
+                        $('#error').show();
+                    }else{
+                        //Hits when it is valid to calculate, then runs calculate function
+                        $('#answer').empty();
+                        $('#error').hide();
+                        calculate();
+                    }
+                }
+            }
+            //Clears inputs when reset button is pressed
+            function resetNums(){
+                $('#num1').val('');
+                $('#num2').val('');
+                $('#num3').val('');
+                $('#answer').empty();
+            }
+            //Does movement on changes
+            $(document).ready(function(){
+                $('#num3').hide();
+                $('#error').hide();
+                $('#num1').on('change',canCalc);
+                $('#num1').on('keyup',canCalc);
+                $('#num2').on('change',canCalc);
+                $('#num2').on('keyup',canCalc);
+                $('#num3').on('change',canCalc);
+                $('#num3').on('keyup',canCalc);
+                $('#numOfNums').on('change',numBoxes);
+                $('#reset').on('click',resetNums)
+            });
+        </script>
+    </head>
+    <body style='background-color:#f2f2f2'>
+        <ul class="nav nav-pills" >
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button">Calculators <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Simple Calculator</a></li>
+                    <li><a href="#">LCM Calculator</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Simple Calculator</a></li>
+            <li><a href="#">LCM Calculator</a></li>
+        </ul>
+        <ul class="breadcrumb">
+            <li><a class="breadcrumb-item" href="#">Calculator</a></li>
+            <li><a class="breadcrumb-item" href="#">LCM Calculator</a></li>
+        </ul>
+        <div class="jumbotron">
+            <h1>Lowest Common Multiple Calculator</h1>
+        </div>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-12'>
+                    <div class='text-center'>
+                        <h4 style='display:block'>How many numbers?</h4>   
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='col-xs-4'></div>
+        <div class='col-xs-4'>
+            <div class='text-center'>
+                <select id='numOfNums' style='margin-top:20px'>
+                    <option id="nums2">2</option>
+                    <option id="nums3">3</option>
+                </select>       
+                <input type="button" id='reset' value='Reset'/> 
+            </div>
+
+        </div>
+        <div class='col-xs-4'></div>
+        <div style='clear:both'></div>
+        <div class='col-xs-12'>
+            <div class='text-center'>
+                <input type='number' class='givenNums' id='num1'/>
+                <input type='number' class='givenNums' id='num2'/>
+                <div id="box3" style="display:inline">
+                    <input type='number' class='givenNums' id='num3'/>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+        <div class="alert alert-danger" id='error' role="alert">
+            <strong>ERROR</strong> Cannot find an LCM with 0 
+        </div>
+        <div class='col-xs-12'>
+            <div class='text-center'>
+                <div id='answer'></div>
+            </div>
+        </div>
+    </body>
+</html>

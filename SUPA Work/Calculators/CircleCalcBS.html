@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Circle Calculator </title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <script  src="https://code.jquery.com/jquery-2.2.4.min.js" ></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script>
+            var rad;
+            var circ;
+            var area;
+            var piString = '';
+            var pi = Math.PI;
+            var given;
+            function reset(){
+                $('#input').val('');
+                $('#answers').empty();
+            }
+            function changeFind(){
+                console.log('RAN');
+                $('#val').empty();
+                given = $('#find').val(); 
+                switch (given){
+                    case 'r':
+                        $('#val').append('r=');
+                        $('#input').attr('placeholder','Radius');
+                        break;
+                    case 'a':
+                        $('#val').append('a=');
+                        $('#inputinput').attr('placeholder','Area');
+                        break;
+                    case 'c':
+                        $('#val').append('c=');
+                        $('#input').attr('placeholder','Circumference');
+                        break;
+                }
+                whatVar();
+            }
+            function whatVar(){
+                piString = '';
+                $('#answers').empty();
+                given = $('#find').val();
+                switch (given){
+                    case 'r':
+                        radCalc();
+                        break;
+                    case 'a':
+                        arCalc();
+                        break;
+                    case 'c':
+                        cirCalc();
+                }
+            }
+            function arCalc(){
+                area = $('#input').val();
+                rad = Math.sqrt(area/pi);
+                circ = 2 * pi * rad; 
+                if($('#pi').is(':checked') == true){
+                    piString = '&#960';
+                    rad = rad/pi;
+                    circ = circ/pi;
+                }
+                sigFigs();
+            }
+            function cirCalc(){
+                circ = $('#input').val();
+                rad = circ / 2 * pi;
+                area = pi * rad * rad;
+                if($('#pi').is(':checked') == true){
+                    piString = '&#960';
+                    rad = rad/pi;
+                    area = area/pi;
+                }
+                sigFigs();
+            }
+            function radCalc(){
+                rad = $('#input').val();
+                circ = 2 * pi * rad;
+                area = pi * rad * rad;
+                if($('#pi').is(':checked') == true){
+                    piString = '&#960';
+                    area = area/pi;
+                    circ = circ/pi;
+                }
+                sigFigs();
+            }
+            function sigFigs(){
+                var round = $('#sigFig').val();
+                round = parseFloat(round);
+                rad = parseFloat(parseFloat(rad).toPrecision(parseFloat(round)));
+                area = parseFloat(parseFloat(area).toPrecision(parseFloat(round)));
+                circ = parseFloat(parseFloat(circ).toPrecision(parseFloat(round)));
+                console.log('rad=' + rad + ' area =' + area + ' circ=' + circ);
+                addAnswer();
+            }
+            function addAnswer(){
+                var unit = $('#units').val() + '';
+                console.log(unit);
+                $('#answers').append('<p> r = ' + rad + piString + ' ' + unit + '</p><p> C = ' + circ + piString + ' ' + unit +'</p><p> A = ' + area + piString + ' ' + unit + '<sup>2</sup> </p>');
+            }
+            $(document).ready(function(){
+                $('p').css('display','inline');
+                $('#calculate').on('click',whatVar);
+                $('#find').on('change', changeFind);
+                $('#reset').on('click',reset);
+                $('#input').on('keyup',whatVar);
+                $('#sigFig').on('change',whatVar);
+                $('#units').on('change',whatVar);
+                $('#pi').on('change',whatVar);
+            });
+        </script>
+    </head>
+    <body style='background-color:#f2f2f2'>
+        <ul class="nav nav-pills" >
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button">Calculators <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Simple Calculator</a></li>
+                    <li><a href="#">LCM Calculator</a></li>
+                    <li><a href="#">Circle Calculator</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Simple Calculator</a></li>
+            <li><a href="#">LCM Calculator</a></li>
+            <li><a href="#">Circle Calculator</a></li>
+        </ul>
+        <ul class="breadcrumb">
+            <li><a class="breadcrumb-item" href="#">Calculator</a></li>
+            <li><a class="breadcrumb-item" href="#">Circle Calculator</a></li>
+        </ul>
+        <!--Beginning of Calculator-->
+        <div class='text-center'>
+            <div class='container'>
+                <div id='main'>
+                    <h1><span class="label label-success">Circle Calculator</span></h1>
+                    <div id='mainIn'>
+                        <div class='text-center'>
+                            <select id='find'>
+                                <option value='r'>Find A and C |Given R</option>
+                                <option value='a'>Find R and C |Given A</option>
+                                <option value='c'>Find A and R |Given C</option>
+                            </select>
+                            <div style='clear:both;margin-bottom: 10px'></div>
+                            <p id='val'>r=</p>
+                            <input id='input' type='number' placeholder="Radius">
+                            <div style='clear:both;margin-bottom: 10px'></div>
+                            <p style='display:inline'>Units</p>
+                            <select id='units'>
+                                <option value='m'>meters</option>
+                                <option value='cm'>centimeters</option>
+                                <option value='mm'>millimeters</option>
+                                <option value='yd'>yards</option>
+                                <option value='ft'>feet</option>
+                                <option value='in'>inches</option>
+                            </select>
+                            <div style='clear:both;margin-bottom: 10px'></div>
+                            <p>Significant Figures</p>
+                            <select id='sigFig'>
+                                <option value=21>auto</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                            </select>
+                            <div style='clear:both;margin-bottom: 10px'></div>
+                            <p>Leave &#960 in Answer</p>
+                            <input type='checkbox' id='pi'/>
+                            <div style='clear:both;margin-bottom: 10px'></div>
+                            <input type='button' id='reset' value="Reset"/>
+                            <div id='answers' class='text-center'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

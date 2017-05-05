@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+    <title>Strings 1</title>
+
+    <script  src="https://code.jquery.com/jquery-2.2.4.min.js" ></script>
+
+    <script>
+        function calculate(){
+            $('#answer').empty();
+            var operand = $('#operation').val();
+            console.log(operand);
+            var firstNum = parseFloat($('#fnum').val());
+            var secondNum = parseFloat($('#snum').val());
+            var answer;
+            if(operand == 'plus'){
+                console.log('TEST');
+                answer = firstNum + secondNum;
+            }else if(operand == 'minus'){
+                answer = firstNum - secondNum;
+            }else if(operand == 'divide'){
+                if(secondNum == 0){
+                    answer = 'ERROR: DIVIDE BY 0';
+                }else{
+                    answer = firstNum / secondNum;
+                }
+            }else if(operand == 'times'){
+                answer = firstNum * secondNum;
+            }else if(operand == 'modulo'){
+                if(secondNum == 0){
+                    answer = 'ERROR: MODULO BY 0';
+                }else{
+                    answer = firstNum % secondNum; 
+                }
+            }else{
+                answer = 'Missing Value';
+            }
+            console.log(answer);
+            $('#answer').html(answer);
+        }
+        $(document).ready(function(){
+            $('#fnum').on('keyup',calculate);
+            $('#fnum').on('change',calculate);
+            $('#snum').on('keyup',calculate);
+            $('#snum').on('change',calculate);
+            $("#operation").on('change',calculate);
+        });
+    </script>
+</head>
+
+<body>
+    <h1> Jquery </h1>
+    <input type="number" id="fnum"/>
+    <select id="operation">
+        <option value="plus">+</option>
+        <option value="minus">-</option>
+        <option value="divide"> / </option>
+        <option value="times">* </option>
+        <option value="modulo"> %</option>
+    </select>
+    <input type="number" id="snum"/>
+    <div id="answer"></div>
+</body>
+</html>

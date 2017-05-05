@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+    <title>Basic Calculator BootStrap</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script  src="https://code.jquery.com/jquery-2.2.4.min.js" ></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    #bootstrap-overrides h1 { /* 100+1=101 priority score, yay! */
+    line-height: 1;
+    color: inherit;
+    }
+    <script>
+        function calculate(){
+            $('#error').hide();
+            $('#answer').empty();
+            var operand = $('#operation').val();
+            console.log(operand);
+            var firstNum = parseFloat($('#fnum').val());
+            var secondNum = parseFloat($('#snum').val());
+            var answer;
+            if(operand == 'plus'){
+                console.log('TEST');
+                answer = firstNum + secondNum;
+            }else if(operand == 'minus'){
+                answer = firstNum - secondNum;
+            }else if(operand == 'divide'){
+                if(secondNum == 0){
+                    $('#error').show();
+                }else{
+                    answer = firstNum / secondNum;
+                }
+            }else if(operand == 'times'){
+                answer = firstNum * secondNum;
+            }else if(operand == 'modulo'){
+                if(secondNum == 0){
+                    $('#error').show();
+                }else{
+                    answer = firstNum % secondNum; 
+                }
+            }else{
+                answer = 'Missing Value';
+            }
+            console.log(answer);
+            $('#answer').html(answer);
+        }
+        $(document).ready(function(){
+            $('#error').hide();
+            $('#fnum').on('keyup',calculate);
+            $('#fnum').on('change',calculate);
+            $('#snum').on('keyup',calculate);
+            $('#snum').on('change',calculate);
+            $("#operation").on('change',calculate);
+        });
+    </script>
+</head>
+<body style="background-color:#f2f2f2">
+    <ul class="nav nav-pills" >
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button">Calculators <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Simple Calculator</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Simple Calculator</a></li>
+    </ul>
+    <ul class="breadcrumb">
+        <li><a class="breadcrumb-item" href="#">Calculator</a></li>
+        <li><a class="breadcrumb-item" href="#">Simple Calculator</a></li>
+    </ul>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-sm-12'>
+                <h1> Basic Calculator </h1>
+            </div>
+            <div class='col-md-2 col-sm-12'>
+                <input type="number" id="fnum"/>
+            </div>
+            <div class='col-md-1 col-sm-12'>
+                <select id="operation" value="select an operator">
+                    <option value="plus">+</option>
+                    <option value="minus">-</option>
+                    <option value="divide"> / </option>
+                    <option value="times">* </option>
+                    <option value="modulo"> %</option>
+                </select>
+            </div>
+            <div class='col-md-2 col-sm-12'>
+                <input type="number" id="snum"/>
+            </div>
+            <div class='col-md-5 col-sm-12'></div>
+            <div class='col-sm-5'>
+                <div id="answer"></div>
+                <div id="error">
+                    <div class="alert alert-danger" role="alert">
+                        <strong>ERROR</strong> Cannot divide or modulo by 0 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
